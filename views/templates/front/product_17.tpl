@@ -16,6 +16,7 @@
         {/literal}
         <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
         <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+        <script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet"> 
         
         <style amp-custom>
@@ -120,6 +121,21 @@
                         </a>
                     </p>
                 {/if}
+            </div>
+            <div class="amp-social">
+                <amp-social-share type="twitter"
+                    width="30"
+                    height="22"></amp-social-share>
+                <amp-social-share type="facebook"
+                    width="30"
+                    height="22"
+                    data-attribution="254325784911610"></amp-social-share>
+                <amp-social-share type="email"
+                    width="30"
+                    height="22"></amp-social-share>
+                <amp-social-share type="pinterest"
+                    width="33"
+                    height="22"></amp-social-share>
             </div>
             <div id="full-version-link">
 			    <a href="{$canonical}" title="{l s='See full version' mod='mdamp'}">{l s='See full version' mod='mdamp'}</a>

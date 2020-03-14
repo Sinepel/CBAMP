@@ -14,6 +14,8 @@ class MDAMP extends Module
         'ampAnalytics',
     ];
 
+    private $output = null;
+
     public function __construct()
     {
         $this->name = 'mdamp';
@@ -21,6 +23,7 @@ class MDAMP extends Module
         $this->version = '1.0.0';
         $this->author = 'MDWeb';
         $this->need_instance = 0;
+        $this->bootstrap = true;
 
         parent::__construct();
 
@@ -37,6 +40,184 @@ class MDAMP extends Module
         return false;
     }
 
+    public function getContent()
+    {
+        $this->postProcess();
+        return $this->output . $this->displayForm();
+    }
+
+    /**
+     * Save form data.
+     */
+    protected function postProcess()
+    {
+        if (Tools::isSubmit('submit' . $this->name)) {
+            $form_values = $this->getConfigFormValues();
+            $return = true;
+            foreach (array_keys($form_values) as $key) {
+                $return &= Configuration::updateValue($key, Tools::getValue($key));
+            }
+
+            if (!$return) {
+                $this->warnings[] = $this->l('Problem during saving data');
+            } else {
+                $this->output .= $this->displayConfirmation($this->l('Settings updated'));
+            }
+        }
+    }
+
+    /**
+     * Set values for the inputs.
+     */
+    protected function getConfigFormValues()
+    {
+        return array(
+            'MDAMP_GACODE' => Configuration::get('MDAMP_GACODE'),
+            'MDAMP_SHARE_BTN' => Configuration::get('MDAMP_SHARE_BTN'),
+            'MDAMP_FULL_VERSION_BTN' => Configuration::get('MDAMP_FULL_VERSION_BTN'),
+            'MDAMP_ENABLE_CATEGORY' => Configuration::get('MDAMP_ENABLE_CATEGORY'),
+            'MDAMP_ENABLE_PRODUCT' => Configuration::get('MDAMP_ENABLE_PRODUCT'),
+        );
+    }
+
+    public function displayForm()
+    {
+        // Get default language
+        $defaultLang = (int) Configuration::get('PS_LANG_DEFAULT');
+
+        // Init Fields form array
+        $fieldsForm[0]['form'] = [
+            'legend' => [
+                'title' => $this->l('Settings'),
+            ],
+            'input' => [
+                [
+                    'type' => 'switch',
+                    'label' => $this->l('AMP Product page'),
+                    'name' => 'MDAMP_ENABLE_PRODUCT',
+                    'is_bool' => true,
+                    'desc' => $this->l('Enable AMP version of the product page'),
+                    'values' => array(
+                        array(
+                            'id' => 'active_on',
+                            'value' => true,
+                            'label' => $this->l('Enabled')
+                        ),
+                        array(
+                            'id' => 'active_off',
+                            'value' => false,
+                            'label' => $this->l('Disabled')
+                        )
+                    ),
+                ],
+                [
+                    'type' => 'switch',
+                    'label' => $this->l('AMP Category page'),
+                    'name' => 'MDAMP_ENABLE_CATEGORY',
+                    'is_bool' => true,
+                    'desc' => $this->l('Enable AMP version of the category page'),
+                    'values' => array(
+                        array(
+                            'id' => 'active_on',
+                            'value' => true,
+                            'label' => $this->l('Enabled')
+                        ),
+                        array(
+                            'id' => 'active_off',
+                            'value' => false,
+                            'label' => $this->l('Disabled')
+                        )
+                    ),
+                ],
+                [
+                    'type' => 'text',
+                    'label' => $this->l('Google Analytics Identifer'),
+                    'name' => 'MDAMP_GACODE',
+                    'size' => 20,
+                    'required' => false
+                ],
+                [
+                    'type' => 'switch',
+                    'label' => $this->l('Share buttons'),
+                    'name' => 'MDAMP_SHARE_BTN',
+                    'is_bool' => true,
+                    'desc' => $this->l('Active share buttons at the product\'s bottom page'),
+                    'values' => array(
+                        array(
+                            'id' => 'active_on',
+                            'value' => true,
+                            'label' => $this->l('Enabled')
+                        ),
+                        array(
+                            'id' => 'active_off',
+                            'value' => false,
+                            'label' => $this->l('Disabled')
+                        )
+                    ),
+                ],
+                [
+                    'type' => 'switch',
+                    'label' => $this->l('Full version link'),
+                    'name' => 'MDAMP_FULL_VERSION_BTN',
+                    'is_bool' => true,
+                    'desc' => $this->l('Show link to go to the full page at the bottom of product / category page'),
+                    'values' => array(
+                        array(
+                            'id' => 'active_on',
+                            'value' => true,
+                            'label' => $this->l('Enabled')
+                        ),
+                        array(
+                            'id' => 'active_off',
+                            'value' => false,
+                            'label' => $this->l('Disabled')
+                        )
+                    ),
+                ],
+            ],
+            'submit' => [
+                'title' => $this->l('Save'),
+                'class' => 'btn btn-default pull-right'
+            ]
+        ];
+
+        $helper = new HelperForm();
+
+        // Module, token and currentIndex
+        $helper->module = $this;
+        $helper->name_controller = $this->name;
+        $helper->token = Tools::getAdminTokenLite('AdminModules');
+        $helper->currentIndex = AdminController::$currentIndex . '&configure=' . $this->name;
+
+        // Language
+        $helper->default_form_language = $defaultLang;
+        $helper->allow_employee_form_lang = $defaultLang;
+
+        // Title and toolbar
+        $helper->title = $this->displayName;
+        $helper->show_toolbar = true;        // false -> remove toolbar
+        $helper->toolbar_scroll = true;      // yes - > Toolbar is always visible on the top of the screen.
+        $helper->submit_action = 'submit' . $this->name;
+        $helper->toolbar_btn = [
+            'save' => [
+                'desc' => $this->l('Save'),
+                'href' => AdminController::$currentIndex . '&configure=' . $this->name . '&save' . $this->name .
+                    '&token=' . Tools::getAdminTokenLite('AdminModules'),
+            ],
+            'back' => [
+                'href' => AdminController::$currentIndex . '&token=' . Tools::getAdminTokenLite('AdminModules'),
+                'desc' => $this->l('Back to list')
+            ]
+        ];
+
+        // Load current value
+        $helper->tpl_vars = array(
+            'fields_value' => $this->getConfigFormValues(),
+        );
+
+        return $helper->generateForm($fieldsForm);
+    }
+
     public function hookDisplayHeader($params)
     {
         $cacheId = null;
@@ -48,7 +229,7 @@ class MDAMP extends Module
             case 'product':
                 $product = $this->context->controller->getProduct();
                 $ipa = null;
-                
+
                 if (!Validate::isLoadedObject($product)) {
                     return;
                 }
@@ -121,15 +302,17 @@ class MDAMP extends Module
 
     public function hookAmpAnalytics($params)
     {
-        $cacheId = 'mdamp|analytics';
-        if (!$this->isCached('analytics.tpl', $this->getCacheId($cacheId))) {
-            $this->context->smarty->assign(
-                [
-                    'codeGA' => Configuration::get('MDAMP_GACODE'),
-                ]
-            );
-        }
+        if (Configuration::get('MDAMP_GACODE')) {
+            $cacheId = 'mdamp|analytics';
+            if (!$this->isCached('analytics.tpl', $this->getCacheId($cacheId))) {
+                $this->context->smarty->assign(
+                    [
+                        'codeGA' => Configuration::get('MDAMP_GACODE'),
+                    ]
+                );
+            }
 
-        return $this->display(__FILE__, 'analytics.tpl', $this->getCacheId($cacheId));
+            return $this->display(__FILE__, 'analytics.tpl', $this->getCacheId($cacheId));
+        }
     }
 }

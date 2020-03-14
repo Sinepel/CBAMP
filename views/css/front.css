@@ -60,7 +60,7 @@ th {
 }
 
 #product-image-amp {
-  border: 1px solid #e1e1e1;
+  /* border: 1px solid #e1e1e1; */
 }
 
 #product-price-amp {
@@ -173,6 +173,13 @@ ul.pagination li:last-child {
   color: #777777;
   text-align: center;
   display: block;
+}
+
+.amp-social {
+  display: block;
+  margin: auto;
+  padding: 10px 0;
+  text-align: center;
 }
 
 dl {
