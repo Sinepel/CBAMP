@@ -77,6 +77,18 @@
                     {$productAMP.clean_description|escape:'UTF-8'}
                 </p>
 
+                <!-- combinations -->
+                {if (!empty($productAMP.combinations))}
+                        <h2>{l s='Options' mod='amp'}</h2>
+                        <select on="change:AMP.navigateTo(url=event.value)">
+                        {foreach from=$productAMP.combinations item=comb}
+                            <option data-id="{$comb.id_product}-{$comb.id_product_attribute}" value="{$comb.goLink}" {if $idpipa == "{$comb.id_product}-{$comb.id_product_attribute}"} selected {/if}>{$comb.attribute_designation}</option>
+                        {/foreach}
+                        </select>
+					</div>
+                {/if}
+                <!--combinations -->
+
                 <!-- Data sheet -->
                 {if (!empty($productAMP.features))}
 					<div id="amp-datasheet">

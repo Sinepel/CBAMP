@@ -68,7 +68,7 @@ class MDAMPCategoryModuleFrontController extends ModuleFrontController
 
                 $tmpProduct = new Product((int) $product['id_product'], false, $this->context->language->id);
 
-                $product['ampLink'] = $this->context->link->getModuleLink('mdamp', 'product', ['id' => $tmpProduct->id, 'link_rewrite' => $tmpProduct->link_rewrite]);
+                $product['ampLink'] = $this->context->link->getModuleLink('mdamp', 'product', ['id' => $tmpProduct->id, 'ipa' => null, 'link_rewrite' => $tmpProduct->link_rewrite]);
 
                 if (!$priceDisplay || $priceDisplay == 2) {
                     $product['price'] = $tmpProduct->getPrice(true, null, 2, null, false, true);

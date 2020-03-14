@@ -47,13 +47,21 @@ class MDAMP extends Module
         switch ($this->context->controller->php_self) {
             case 'product':
                 $product = $this->context->controller->getProduct();
-
+                $ipa = null;
+                
                 if (!Validate::isLoadedObject($product)) {
                     return;
                 }
 
+                if (Tools::getIsset('id_product_attribute')) {
+                    $ipa = (int) Tools::getValue('id_product_attribute');
+                }
+
                 $cacheId = 'amp_header|product|' . $product->id;
-                $ampLink = $this->context->link->getModuleLink('mdamp', 'product', array('id' => $product->id, 'link_rewrite' => $product->link_rewrite), true, $this->context->language->id, $this->context->shop->id, true);
+                if ($ipa) {
+                    $cacheId .= "|{$ipa}";
+                }
+                $ampLink = $this->context->link->getModuleLink('mdamp', 'product', array('id' => $product->id, 'ipa' => $ipa, 'link_rewrite' => $product->link_rewrite), true, $this->context->language->id, $this->context->shop->id, true);
 
                 break;
 
@@ -85,9 +93,10 @@ class MDAMP extends Module
         return array(
             'module-mdamp-product' => array(
                 'controller' => 'product',
-                'rule' => 'amp/product/{id}-{link_rewrite}.html',
+                'rule' => 'amp/product/{id}{-:ipa}-{link_rewrite}.html',
                 'keywords' => array(
                     'id' => array('regexp' => '[0-9]+', 'param' => 'id'),
+                    'ipa' => array('regexp' => '[0-9]+', 'param' => 'ipa'),
                     'link_rewrite' => array('regexp' => '[_a-zA-Z0-9-\pL]*'),
                 ),
                 'params' => array(

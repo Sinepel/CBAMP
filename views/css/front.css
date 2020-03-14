@@ -2,6 +2,7 @@
 h1 {
   font-weight: 400;
 }
+
 a {
   text-decoration: none;
   color: inherit;
@@ -189,4 +190,11 @@ dd {
 
 #amp-reference {
   font-weight: 300;
+}
+
+select {
+  border: 1px solid gray;
+  padding: 10px;
+  border-radius: 0px;
+  background-color: white;
 }
