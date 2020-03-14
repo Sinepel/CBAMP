@@ -73,12 +73,6 @@
 										&lt; <b>{l s='Previous' mod='mdamp'}</b>
 									</a>
 								</li>
-                            {else}
-								<li id="pagination_previous{if isset($paginationId)}_{$paginationId|escape:'html':'UTF-8'}{/if}" class="disabled pagination_previous">
-									<span>
-										&lt; <b>{l s='Previous' mod='mdamp'}</b>
-									</span>
-								</li>
                             {/if}
                             {if $start==3}
 								<li>
@@ -163,12 +157,6 @@
 									<a href="{$link->goPage($requestPage, $p_next)|escape:'quotes':'UTF-8'}" rel="next">
 										<b>{l s='Next' mod='mdamp'}</b> &gt;
 									</a>
-								</li>
-                            {else}
-								<li id="pagination_next{if isset($paginationId)}_{$paginationId|escape:'quotes':'UTF-8'}{/if}" class="disabled pagination_next">
-									<span>
-										<b>{l s='Next' mod='mdamp'}</b> &gt;
-									</span>
 								</li>
                             {/if}
 						</ul>
