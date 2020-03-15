@@ -1,5 +1,9 @@
 /* Template Styles */
 h1 {
+  font-weight: 700;
+}
+
+h2 {
   font-weight: 400;
 }
 
@@ -204,4 +208,14 @@ select {
   padding: 10px;
   border-radius: 0px;
   background-color: white;
+}
+
+footer {
+  background-color: #555;
+  color: white;
+  padding: 10px;
+  display: block;
+  text-align: center;
+  font-size: 10px;
+  margin-top: 5px;
 }

@@ -194,5 +194,8 @@
 			<a href="{$canonical}" title="{l s='See full version' mod='mdamp'}">{l s='See full version' mod='mdamp'}</a>
 		</div>
 	</div>
+	<footer>
+		&copy;  {$shop.name} - {date('Y')}
+	</footer>
 </body>
 </html>

@@ -42,7 +42,7 @@
                             layout="responsive"
                             type="slides"
                             autoplay
-                            delay="2000">
+                            delay="4000">
                         <amp-img
                                 src="//{$link->getImageLink($productAMP.id, $cover.id_image, 'large_default')|escape:'html':'UTF-8'}"
                                 width="{$largeSize['width']}"
@@ -72,7 +72,7 @@
                 <h1 id="product-name-amp">
                     {$productAMP.name|escape:'html':'UTF-8'}
                 </h1>
-                <p id="amp-reference">{l s='Reference' mod='mdamp'}: {$productAMP.reference|escape:'html':'UTF-8'}</p>
+                <span id="amp-reference">{l s='Reference' mod='mdamp'}: {$productAMP.reference|escape:'html':'UTF-8'}</span>
                 <p>
                     {$productAMP.clean_description|escape:'UTF-8'}
                 </p>
@@ -114,8 +114,7 @@
                     </span>
                 </p>
                 <p id="product-add-to-cart-amp">
-                    {capture}add=1&amp;id_product={$productAMP.id|intval}{if isset($static_token)}&amp;token={$static_token}{/if}{/capture}
-                    <a href="{$link->getPageLink('cart', true, NULL, $smarty.capture.default, false)|escape:'html':'UTF-8'}" class="btn btn-primary">
+                    <a href="{$addToCartLink}" class="btn btn-primary">
                         {l s='Add to cart' mod='mdamp'}
                     </a>
                 </p>
@@ -139,5 +138,8 @@
 			    <a href="{$canonical}" title="{l s='See full version' mod='mdamp'}">{l s='See full version' mod='mdamp'}</a>
 		    </div>
         </div>
+        <footer>
+            &copy;  {$shop.name} - {date('Y')}
+        </footer>   
     </body>
 </html>

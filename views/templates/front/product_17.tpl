@@ -73,7 +73,7 @@
                 <h1 id="product-name-amp">
                     {$productAMP.name}
                 </h1>
-                <p id="amp-reference">{l s='Reference' mod='mdamp'}: {$productAMP.reference}</p>
+                <span id="amp-reference">{l s='Reference' mod='mdamp'}: {$productAMP.reference}</span>
                 <p>
                     {$productAMP.clean_description nofilter}
                 </p>
@@ -140,6 +140,9 @@
             <div id="full-version-link">
 			    <a href="{$canonical}" title="{l s='See full version' mod='mdamp'}">{l s='See full version' mod='mdamp'}</a>
 		    </div>
+            <footer>
+                &copy;  {$shop.name} - {date('Y')}
+            </footer>
         </div>
     </body>
 </html>
