@@ -24,7 +24,7 @@ class CBAMP extends Module
         $this->name = 'cbamp';
         $this->tab = 'front_office_features';
         $this->version = '1.0.0';
-        $this->author = 'MDWeb';
+        $this->author = '<a href="https://constantin-boulanger.fr" target="_blank">Constantin Boulanger</a>';
         $this->need_instance = 0;
         $this->bootstrap = true;
 
