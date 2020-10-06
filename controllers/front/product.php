@@ -1,6 +1,6 @@
 <?php
 
-class MDAMPProductModuleFrontController extends ModuleFrontController
+class CBAMPProductModuleFrontController extends ModuleFrontController
 {
     public $display_header = false;
     public $display_footer = false;
@@ -25,7 +25,7 @@ class MDAMPProductModuleFrontController extends ModuleFrontController
             if ((int)$this->combination->id_product != (int)$this->product->id) {
                 $this->combination = null;
                 $this->combinationID = null;
-                Tools::redirect($this->context->link->getModuleLink('mdamp', 'product', ['id' => $this->product->id, 'ipa' => null, 'link_rewrite' => $this->product->link_rewrite]));
+                Tools::redirect($this->context->link->getModuleLink('cbamp', 'product', ['id' => $this->product->id, 'ipa' => null, 'link_rewrite' => $this->product->link_rewrite]));
             }
         }
         if (!Validate::isLoadedObject($this->product)) {
@@ -51,7 +51,7 @@ class MDAMPProductModuleFrontController extends ModuleFrontController
 
         if (!empty($this->productAMP['combinations'])) {
             foreach ($this->productAMP['combinations'] as &$comb) {
-                $comb['goLink'] = $this->context->link->getModuleLink('mdamp', 'product', ['id' => $this->product->id, 'ipa' => $comb['id_product_attribute'], 'link_rewrite' => $this->product->link_rewrite]);
+                $comb['goLink'] = $this->context->link->getModuleLink('cbamp', 'product', ['id' => $this->product->id, 'ipa' => $comb['id_product_attribute'], 'link_rewrite' => $this->product->link_rewrite]);
             }
         }
 
@@ -61,8 +61,8 @@ class MDAMPProductModuleFrontController extends ModuleFrontController
         $group_for_cart = [];
         if ($this->combinationID !== null) {
             $group = Product::getAttributesParams($this->product->id, $this->combinationID);
-            foreach ($group as $attr) {
-                $group_for_cart[] = $attr['id_attribute'];
+            foreach ($group as $index => $attr) {
+                $group_for_cart["group[{$attr['id_attribute_group']}]"] = (int) $attr['id_attribute'];
             }
         }
 
@@ -71,7 +71,7 @@ class MDAMPProductModuleFrontController extends ModuleFrontController
             'idpipa' => "{$this->product->id}-{$this->combinationID}",
             'images' => $this->product_images,
             'link' => $this->context->link,
-            'css' => Media::minifyCSS(Tools::file_get_contents(_PS_MODULE_DIR_ . 'mdamp/views/css/front.css')),
+            'css' => Media::minifyCSS(Tools::file_get_contents(_PS_MODULE_DIR_ . 'cbamp/views/css/front.css')),
             'cover' => Product::getCover((int) $this->product->id),
             'canonical' => $this->context->link->getProductLink($this->product->id, $this->product->link_rewrite),
             'meta' => Meta::getProductMetas($this->product->id, $this->context->language->id, 'product'),
@@ -79,11 +79,13 @@ class MDAMPProductModuleFrontController extends ModuleFrontController
                 'cart',
                 true,
                 $this->context->language->id,
-                array(
-                    'add' => 1,
-                    'id_product' => $this->product->id,
-                    'token' => Tools::getToken(false),
-                    'group' => $group_for_cart
+                array_merge(
+                    array(
+                        'add' => 1,
+                        'id_product' => $this->product->id,
+                        'token' => Tools::getToken(false),
+                    ),
+                    $group_for_cart
                 ),
                 false,
                 $this->context->shop->id
@@ -91,7 +93,7 @@ class MDAMPProductModuleFrontController extends ModuleFrontController
         ]);
 
         if (version_compare(_PS_VERSION_, '1.7.0', '>=')) {
-            $this->setTemplate('module:mdamp/views/templates/front/product_17.tpl');
+            $this->setTemplate('module:cbamp/views/templates/front/product_17.tpl');
         } else {
             $this->setTemplate('product.tpl');
         }

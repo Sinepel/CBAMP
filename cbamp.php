@@ -4,9 +4,12 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once _PS_MODULE_DIR_ . 'mdamp/classes/utils/DescriptionHelper.php';
+require_once _PS_MODULE_DIR_ . 'cbamp/classes/utils/DescriptionHelper.php';
 
-class MDAMP extends Module
+/**
+ * @author Constantin Boulanger <constantin.boulanger@gmail.com>
+ */
+class CBAMP extends Module
 {
     private $hooks = [
         'header',
@@ -18,7 +21,7 @@ class MDAMP extends Module
 
     public function __construct()
     {
-        $this->name = 'mdamp';
+        $this->name = 'cbamp';
         $this->tab = 'front_office_features';
         $this->version = '1.0.0';
         $this->author = 'MDWeb';
@@ -72,11 +75,11 @@ class MDAMP extends Module
     protected function getConfigFormValues()
     {
         return array(
-            'MDAMP_GACODE' => Configuration::get('MDAMP_GACODE'),
-            'MDAMP_SHARE_BTN' => Configuration::get('MDAMP_SHARE_BTN'),
-            'MDAMP_FULL_VERSION_BTN' => Configuration::get('MDAMP_FULL_VERSION_BTN'),
-            'MDAMP_ENABLE_CATEGORY' => Configuration::get('MDAMP_ENABLE_CATEGORY'),
-            'MDAMP_ENABLE_PRODUCT' => Configuration::get('MDAMP_ENABLE_PRODUCT'),
+            'CBAMP_GACODE' => Configuration::get('CBAMP_GACODE'),
+            'CBAMP_SHARE_BTN' => Configuration::get('CBAMP_SHARE_BTN'),
+            'CBAMP_FULL_VERSION_BTN' => Configuration::get('CBAMP_FULL_VERSION_BTN'),
+            'CBAMP_ENABLE_CATEGORY' => Configuration::get('CBAMP_ENABLE_CATEGORY'),
+            'CBAMP_ENABLE_PRODUCT' => Configuration::get('CBAMP_ENABLE_PRODUCT'),
         );
     }
 
@@ -94,7 +97,7 @@ class MDAMP extends Module
                 [
                     'type' => 'switch',
                     'label' => $this->l('AMP Product page'),
-                    'name' => 'MDAMP_ENABLE_PRODUCT',
+                    'name' => 'CBAMP_ENABLE_PRODUCT',
                     'is_bool' => true,
                     'desc' => $this->l('Enable AMP version of the product page'),
                     'values' => array(
@@ -113,7 +116,7 @@ class MDAMP extends Module
                 [
                     'type' => 'switch',
                     'label' => $this->l('AMP Category page'),
-                    'name' => 'MDAMP_ENABLE_CATEGORY',
+                    'name' => 'CBAMP_ENABLE_CATEGORY',
                     'is_bool' => true,
                     'desc' => $this->l('Enable AMP version of the category page'),
                     'values' => array(
@@ -132,14 +135,14 @@ class MDAMP extends Module
                 [
                     'type' => 'text',
                     'label' => $this->l('Google Analytics Identifer'),
-                    'name' => 'MDAMP_GACODE',
+                    'name' => 'CBAMP_GACODE',
                     'size' => 20,
                     'required' => false
                 ],
                 [
                     'type' => 'switch',
                     'label' => $this->l('Share buttons'),
-                    'name' => 'MDAMP_SHARE_BTN',
+                    'name' => 'CBAMP_SHARE_BTN',
                     'is_bool' => true,
                     'desc' => $this->l('Active share buttons at the product\'s bottom page'),
                     'values' => array(
@@ -158,7 +161,7 @@ class MDAMP extends Module
                 [
                     'type' => 'switch',
                     'label' => $this->l('Full version link'),
-                    'name' => 'MDAMP_FULL_VERSION_BTN',
+                    'name' => 'CBAMP_FULL_VERSION_BTN',
                     'is_bool' => true,
                     'desc' => $this->l('Show link to go to the full page at the bottom of product / category page'),
                     'values' => array(
@@ -242,7 +245,7 @@ class MDAMP extends Module
                 if ($ipa) {
                     $cacheId .= "|{$ipa}";
                 }
-                $ampLink = $this->context->link->getModuleLink('mdamp', 'product', array('id' => $product->id, 'ipa' => $ipa, 'link_rewrite' => $product->link_rewrite), true, $this->context->language->id, $this->context->shop->id, true);
+                $ampLink = $this->context->link->getModuleLink('cbamp', 'product', array('id' => $product->id, 'ipa' => $ipa, 'link_rewrite' => $product->link_rewrite), true, $this->context->language->id, $this->context->shop->id, true);
 
                 break;
 
@@ -254,7 +257,7 @@ class MDAMP extends Module
                 }
 
                 $cacheId = 'amp_header|category|' . $category->id;
-                $ampLink = $this->context->link->getModuleLink('mdamp', 'category', array('id' => $category->id, 'link_rewrite' => $category->link_rewrite), true, $this->context->language->id, $this->context->shop->id, true);
+                $ampLink = $this->context->link->getModuleLink('cbamp', 'category', array('id' => $category->id, 'link_rewrite' => $category->link_rewrite), true, $this->context->language->id, $this->context->shop->id, true);
 
                 break;
 
@@ -272,7 +275,7 @@ class MDAMP extends Module
     public function hookModuleRoutes()
     {
         return array(
-            'module-mdamp-product' => array(
+            'module-cbamp-product' => array(
                 'controller' => 'product',
                 'rule' => 'amp/product/{id}{-:ipa}-{link_rewrite}.html',
                 'keywords' => array(
@@ -282,10 +285,10 @@ class MDAMP extends Module
                 ),
                 'params' => array(
                     'fc' => 'module',
-                    'module' => 'mdamp',
+                    'module' => 'cbamp',
                 ),
             ),
-            'module-mdamp-category' => array(
+            'module-cbamp-category' => array(
                 'controller' => 'category',
                 'rule' => 'amp/category/{id}-{link_rewrite}',
                 'keywords' => array(
@@ -294,7 +297,7 @@ class MDAMP extends Module
                 ),
                 'params' => array(
                     'fc' => 'module',
-                    'module' => 'mdamp',
+                    'module' => 'cbamp',
                 ),
             ),
         );
@@ -302,12 +305,12 @@ class MDAMP extends Module
 
     public function hookAmpAnalytics($params)
     {
-        if (Configuration::get('MDAMP_GACODE')) {
-            $cacheId = 'mdamp|analytics';
+        if (Configuration::get('CBAMP_GACODE')) {
+            $cacheId = 'cbamp|analytics';
             if (!$this->isCached('analytics.tpl', $this->getCacheId($cacheId))) {
                 $this->context->smarty->assign(
                     [
-                        'codeGA' => Configuration::get('MDAMP_GACODE'),
+                        'codeGA' => Configuration::get('CBAMP_GACODE'),
                     ]
                 );
             }

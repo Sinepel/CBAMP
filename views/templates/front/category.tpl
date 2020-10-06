@@ -20,7 +20,7 @@
         </style>
 	</head>
 	<body>
-        {hook h='ampAnalytics' mod='mdamp'}
+        {hook h='ampAnalytics' mod='cbamp'}
 		<div class="page-body-amp">
 		<div class="header-column-amp">
 			<a href="{$link->getPageLink('index')|escape:'html':'UTF-8'}">
@@ -28,7 +28,7 @@
 					width="250"
 					height="99"
 					id="shop-logo-amp"
-					alt="{l s='Shop logo' mod='mdamp'}">
+					alt="{l s='Shop logo' mod='cbamp'}">
 				</amp-img>
 			</a>
 		</div>
@@ -55,7 +55,7 @@
 	        <div class="width-full float-left">
 		        <div class="float-left pagination-text">
 					<span>
-						{l s='Showing ' mod='mdamp'} {$currentStart|escape:'html':'UTF-8'} - {$currentStop|escape:'html':'UTF-8'} {l s=' of ' mod='mdamp'} {$nbProducts|escape:'html':'UTF-8'} {l s=' items.' mod='mdamp'}
+						{l s='Showing ' mod='cbamp'} {$currentStart|escape:'html':'UTF-8'} - {$currentStop|escape:'html':'UTF-8'} {l s=' of ' mod='cbamp'} {$nbProducts|escape:'html':'UTF-8'} {l s=' items.' mod='cbamp'}
 					</span>
 				</div>
                 {if !isset($current_url)}
@@ -70,7 +70,7 @@
                                 {assign var='p_previous' value=$p-1}
 								<li id="pagination_previous{if isset($paginationId)}_{$paginationId|escape:'quotes':'UTF-8'}{/if}" class="pagination_previous">
 									<a href="{$link->goPage($requestPage, $p_previous)|escape:'quotes':'UTF-8'}" rel="prev">
-										&lt; <b>{l s='Previous' mod='mdamp'}</b>
+										&lt; <b>{l s='Previous' mod='cbamp'}</b>
 									</a>
 								</li>
                             {/if}
@@ -155,7 +155,7 @@
                                 {assign var='p_next' value=$p+1}
 								<li id="pagination_next{if isset($paginationId)}_{$paginationId|escape:'html':'UTF-8'}{/if}" class="pagination_next">
 									<a href="{$link->goPage($requestPage, $p_next)|escape:'quotes':'UTF-8'}" rel="next">
-										<b>{l s='Next' mod='mdamp'}</b> &gt;
+										<b>{l s='Next' mod='cbamp'}</b> &gt;
 									</a>
 								</li>
                             {/if}
@@ -184,14 +184,14 @@
 					</p>
 					<p class="product-add-to-cart-amp {if $product.quantity == 0} disabled {/if}">
 						<a class="btn btn-primary" {if $product.quantity == 0} href="#" {else} href="{$product.addToCartLink|escape:'html':'UTF-8'}" {/if}>
-							{l s='Add to cart' mod='mdamp'}
+							{l s='Add to cart' mod='cbamp'}
 						</a>
 					</p>
 				</div>
             {/foreach}
 		</div>
 		<div id="full-version-link">
-			<a href="{$canonical}" title="{l s='See full version' mod='mdamp'}">{l s='See full version' mod='mdamp'}</a>
+			<a href="{$canonical}" title="{l s='See full version' mod='cbamp'}">{l s='See full version' mod='cbamp'}</a>
 		</div>
 	</div>
 	<footer>

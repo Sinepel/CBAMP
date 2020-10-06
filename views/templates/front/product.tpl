@@ -23,7 +23,7 @@
         </style>
     </head>
     <body>
-        {hook h='ampAnalytics' mod='mdamp'}
+        {hook h='ampAnalytics' mod='cbamp'}
         <div class="page-body-amp">
             <div class="header-column-amp">
                 <a href="{$link->getPageLink('index')|escape:'html':'UTF-8'}">
@@ -31,7 +31,7 @@
                              width="250"
                              height="99"
                              id="shop-logo-amp"
-                             alt="{l s='Shop logo' mod='mdamp'}">
+                             alt="{l s='Shop logo' mod='cbamp'}">
                     </amp-img>
                 </a>
             </div>
@@ -72,7 +72,7 @@
                 <h1 id="product-name-amp">
                     {$productAMP.name|escape:'html':'UTF-8'}
                 </h1>
-                <span id="amp-reference">{l s='Reference' mod='mdamp'}: {$productAMP.reference|escape:'html':'UTF-8'}</span>
+                <span id="amp-reference">{l s='Reference' mod='cbamp'}: {$productAMP.reference|escape:'html':'UTF-8'}</span>
                 <p>
                     {$productAMP.clean_description|escape:'UTF-8'}
                 </p>
@@ -115,7 +115,7 @@
                 </p>
                 <p id="product-add-to-cart-amp">
                     <a href="{$addToCartLink}" class="btn btn-primary">
-                        {l s='Add to cart' mod='mdamp'}
+                        {l s='Add to cart' mod='cbamp'}
                     </a>
                 </p>
             </div>
@@ -135,7 +135,7 @@
                     height="22"></amp-social-share>
             </div>
             <div id="full-version-link">
-			    <a href="{$canonical}" title="{l s='See full version' mod='mdamp'}">{l s='See full version' mod='mdamp'}</a>
+			    <a href="{$canonical}" title="{l s='See full version' mod='cbamp'}">{l s='See full version' mod='cbamp'}</a>
 		    </div>
         </div>
         <footer>

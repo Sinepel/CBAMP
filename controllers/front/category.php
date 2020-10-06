@@ -1,6 +1,6 @@
 <?php
 
-class MDAMPCategoryModuleFrontController extends ModuleFrontController
+class CBAMPCategoryModuleFrontController extends ModuleFrontController
 {
     public $display_header = false;
     public $display_footer = false;
@@ -68,7 +68,7 @@ class MDAMPCategoryModuleFrontController extends ModuleFrontController
 
                 $tmpProduct = new Product((int) $product['id_product'], false, $this->context->language->id);
 
-                $product['ampLink'] = $this->context->link->getModuleLink('mdamp', 'product', ['id' => $tmpProduct->id, 'ipa' => null, 'link_rewrite' => $tmpProduct->link_rewrite]);
+                $product['ampLink'] = $this->context->link->getModuleLink('cbamp', 'product', ['id' => $tmpProduct->id, 'ipa' => null, 'link_rewrite' => $tmpProduct->link_rewrite]);
 
                 if (!$priceDisplay || $priceDisplay == 2) {
                     $product['price'] = $tmpProduct->getPrice(true, null, 2, null, false, true);
@@ -91,7 +91,7 @@ class MDAMPCategoryModuleFrontController extends ModuleFrontController
         $this->context->smarty->assign([
             'catProducts' => $this->cat_products,
             'link' => $this->context->link,
-            'css' => Media::minifyCSS(Tools::file_get_contents(_PS_MODULE_DIR_ . 'mdamp/views/css/front.css')),
+            'css' => Media::minifyCSS(Tools::file_get_contents(_PS_MODULE_DIR_ . 'cbamp/views/css/front.css')),
             'canonical' => $this->context->link->getCategoryLink($this->category, null, $this->context->language->id, null, $this->context->shop->id),
             'meta' => Meta::getCategoryMetas((int) $this->category->id, $this->context->language->id, 'category'),
             'noOfPages' => $this->nbProducts / $this->n,
@@ -104,7 +104,7 @@ class MDAMPCategoryModuleFrontController extends ModuleFrontController
         ]);
 
         if (version_compare(_PS_VERSION_, '1.7.0', '>=')) {
-            $this->setTemplate('module:mdamp/views/templates/front/category_17.tpl');
+            $this->setTemplate('module:cbamp/views/templates/front/category_17.tpl');
         } else {
             $this->setTemplate('category.tpl');
         }
